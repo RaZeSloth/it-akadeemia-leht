@@ -126,7 +126,7 @@ if ( ! function_exists( 'hello_elementor_scripts_styles' ) ) {
 		if ( apply_filters( 'hello_elementor_enqueue_style', true ) ) {
 			wp_enqueue_style(
 				'hello-elementor',
-				get_template_directory_uri() . '/style' . $min_suffix . '.css',
+				get_template_directory_uri() . '/style' . '.css',
 				[],
 				HELLO_ELEMENTOR_VERSION
 			);

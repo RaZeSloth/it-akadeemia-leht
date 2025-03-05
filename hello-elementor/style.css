@@ -26,7 +26,7 @@
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  * 3. Change from `box-sizing: content-box` so that `width` is not affected by `padding` or `border`.
  */
-html {
+ html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
 }
@@ -120,7 +120,7 @@ pre {
 a {
   background-color: transparent;
   text-decoration: none;
-  color: #CC3366;
+  color: black;
 }
 a:hover, a:active {
   color: #333366;
@@ -579,4 +579,102 @@ li {
   font-size: 100%;
   vertical-align: baseline;
   background: transparent;
+}
+
+.contact-list-contact-container {
+  border: 0px solid #e0e0e0;
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 0px 0px;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+
+li:nth-child(odd) .contact-list-contact-container {
+  background-color: #F5F7FA;
+}
+li:nth-child(even) .contact-list-contact-container {
+  background-color: #FFFFFF;
+}
+
+.contact-list-main-left {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact-list-main-elements {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.contact-list-contact-name {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.contact-list-job-title {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.contact-list-email {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.contact-list-email a {
+  color: #000;
+  text-decoration: none;
+}
+
+.contact-list-address-title,
+.contact-list-custom-field-title {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.contact-list-address-line-1,
+.contact-list-custom-field-value {
+  font-size: 14px;
+  color: #000;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.contact-list-send-email {
+  display: none;
+}
+
+.contact-list-main-right,
+.contact-list-main-bottom {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .contact-list-contact-container {
+      flex-direction: column;
+  }
+}
+
+.contact-list-3-cards-on-the-same-row #all-contacts li {
+  padding: 0;
+}
+
+.contact-list-3-cards-on-the-same-row #all-contacts li .contact-list-contact-container {
+  border-radius: 0px;
+  padding: 10px;
 }
