@@ -122,15 +122,20 @@ if ( ! function_exists( 'hello_elementor_scripts_styles' ) ) {
 	 */
 	function hello_elementor_scripts_styles() {
 		$min_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-
 		if ( apply_filters( 'hello_elementor_enqueue_style', true ) ) {
 			wp_enqueue_style(
-				'hello-elementor',
-				get_template_directory_uri() . '/style' . '.css',
-				[],
-				HELLO_ELEMENTOR_VERSION
+					'hello-elementor',
+					get_template_directory_uri() . '/style.css',
+					[],
+					time()
 			);
-		}
+			wp_enqueue_style(
+				'hello-elementor-contacts',
+				get_template_directory_uri() . '/contacts.css',
+				[],
+				time()
+		);
+	}
 
 		if ( apply_filters( 'hello_elementor_enqueue_theme_style', true ) ) {
 			wp_enqueue_style(
