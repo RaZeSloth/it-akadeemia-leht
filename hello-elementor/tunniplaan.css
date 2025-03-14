@@ -1,3 +1,96 @@
-.test {
-    color: red;
+.voco-tunniplaan {
+    font-family: Arial, sans-serif;
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+.voco-tunniplaan table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.voco-tunniplaan th {
+    background-color: #f0f0f0;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-weight: bold;
+}
+
+.voco-tunniplaan .time-column {
+    width: 50px;
+    text-align: center;
+    font-weight: bold;
+    background-color: #f0f0f0;
+}
+
+.voco-tunniplaan td {
+    border: 1px solid #ddd;
+    padding: 5px;
+    vertical-align: top;
+    position: relative;
+    height: 30px;
+    overflow: visible;
+}
+
+.voco-tunniplaan .time-slot {
+    color: #888;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.voco-tunniplaan .lesson {
+    background-color: #8dd7fb;
+    padding: 5px;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    position: relative;
+    z-index: 5;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.voco-tunniplaan .lesson:hover {
+    z-index: 20;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.voco-tunniplaan .lesson-time {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.voco-tunniplaan .lesson-name {
+    margin: 5px 0;
+}
+
+.voco-tunniplaan .truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.voco-tunniplaan .lesson:hover .truncate {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    height: 200px;
+}
+
+.voco-tunniplaan .lesson-room,
+.voco-tunniplaan .lesson-teacher {
+    font-size: 12px;
+    color: #555;
+}
+
+.voco-tunniplaan .lunch-time {
+    background-color: orange;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #555;
+    text-align: center;
+    font-weight: bold;
 }
