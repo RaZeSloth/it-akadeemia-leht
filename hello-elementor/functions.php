@@ -7,6 +7,8 @@
 
 use Elementor\WPNotificationsPackage\V110\Notifications as ThemeNotifications;
 
+include 'tunniplaan.php';
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -134,7 +136,13 @@ if ( ! function_exists( 'hello_elementor_scripts_styles' ) ) {
 				get_template_directory_uri() . '/contacts.css',
 				[],
 				time()
-		);
+			);
+			wp_enqueue_style(
+				'tunniplaan-css',
+				get_template_directory_uri() . '/tunniplaan.css',
+				[],
+				time()
+			);	
 	}
 
 		if ( apply_filters( 'hello_elementor_enqueue_theme_style', true ) ) {
