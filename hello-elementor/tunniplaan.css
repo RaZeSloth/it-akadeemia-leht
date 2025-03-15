@@ -10,20 +10,28 @@
     border-collapse: collapse;
     table-layout: fixed;
 }
-
+.voco-tunniplaan .hour-row {
+    border-top: 1px solid #ddd;
+}
 .voco-tunniplaan th {
     background-color: #f0f0f0;
     padding: 10px;
     text-align: center;
     border: 1px solid #ddd;
     font-weight: bold;
+    height: 60px;
 }
-
 .voco-tunniplaan .time-column {
-    width: 50px;
+    width: 80px;
     text-align: center;
     font-weight: bold;
     background-color: #f0f0f0;
+    height: 80px;
+    font-size: 18px;
+    padding: 10px;
+    vertical-align: middle;
+
+    position: relative;
 }
 
 .voco-tunniplaan td {
@@ -31,7 +39,9 @@
     padding: 5px;
     vertical-align: top;
     position: relative;
-    height: 30px;
+    height: 80px;
+    min-height: 80px;
+
     overflow: visible;
 }
 
@@ -46,10 +56,12 @@
     padding: 5px;
     border-radius: 4px;
     margin-bottom: 5px;
-    position: relative;
-    z-index: 5;
+    position: absolute;
+    z-index: 10;
     overflow: hidden;
     transition: all 0.3s ease;
+    left: 5px;
+    right: 5px;
 }
 
 .voco-tunniplaan .lesson:hover {
@@ -61,7 +73,10 @@
     font-weight: bold;
     font-size: 14px;
 }
-
+.voco-tunniplaan .lesson-container {
+    position: relative;
+    height: 100%;
+}
 .voco-tunniplaan .lesson-name {
     margin: 5px 0;
 }
@@ -93,4 +108,104 @@
     color: #555;
     text-align: center;
     font-weight: bold;
+}
+
+.voco-group-selector {
+    margin: 20px 0;
+}
+.voco-dropdown {
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 16px;
+}
+
+@media screen and (max-width: 768px) {
+    .voco-tunniplaan {
+        font-size: 14px;
+    }
+    
+    .voco-tunniplaan th {
+        padding: 5px;
+        height: 40px;
+        font-size: 14px;
+    }
+    
+    .voco-tunniplaan .time-column {
+        width: 60px;
+        height: 60px;
+        font-size: 14px;
+        padding: 5px;
+    }
+    
+    .voco-tunniplaan td {
+        height: 60px;
+        min-height: 60px;
+        padding: 2px;
+    }
+    
+    .voco-tunniplaan .lesson {
+        padding: 3px;
+        left: 2px;
+        right: 2px;
+    }
+    
+    .voco-tunniplaan .lesson-time {
+        font-size: 12px;
+    }
+    
+    .voco-tunniplaan .lesson-name {
+        font-size: 12px;
+        margin: 2px 0;
+    }
+    
+    .voco-tunniplaan .lesson-room,
+    .voco-tunniplaan .lesson-teacher {
+        font-size: 10px;
+    }
+    
+    .voco-tunniplaan .time-slot {
+        font-size: 10px;
+    }
+    
+    .voco-tunniplaan .day-header {
+        font-size: 12px;
+    }
+    
+    .voco-dropdown {
+        padding: 8px;
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .voco-tunniplaan {
+        overflow-x: scroll;
+        font-size: 12px;
+    }
+    
+    .voco-tunniplaan table {
+        min-width: 480px;
+    }
+    
+    .voco-tunniplaan th {
+        padding: 3px;
+        height: 30px;
+    }
+    
+    .voco-tunniplaan .time-column {
+        width: 50px;
+        height: 50px;
+        font-size: 12px;
+    }
+    
+    .voco-tunniplaan .lesson:hover .truncate {
+        height: 150px;
+    }
+    
+    .voco-tunniplaan .lesson {
+        padding: 2px;
+    }
 }
