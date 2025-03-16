@@ -3,12 +3,41 @@ function tunniplaan_shortcode($atts) {
     
     $atts = shortcode_atts(array(
         'grupp' => isset($_GET['group']) ? $_GET['group'] : '6969696969',
-        'nadal' => date('Y-m-d', strtotime('monday this week')) 
+        'ruum' => isset($_GET['room']) ? $_GET['room'] : NULL,
+        'nadal' => isset($_GET['week']) ? $_GET['week'] : date('Y-m-d', strtotime('monday this week')) 
     ), $atts, 'voco_tunniplaan');
     
     $week_date = date('Y-m-d', strtotime($atts['nadal'])) . 'T00:00:00';
     
-    $url = "https://siseveeb.voco.ee/veebilehe_andmed/tunniplaan?nadal={$week_date}&grupp={$atts['grupp']}";
+    $prev_week = date('Y-m-d', strtotime('-1 week', strtotime($atts['nadal'])));
+    $next_week = date('Y-m-d', strtotime('+1 week', strtotime($atts['nadal'])));
+    $current_week = date('Y-m-d', strtotime('monday this week'));
+    
+    $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    $url_parts = parse_url($current_url);
+    
+    $params = array();
+    if (isset($url_parts['query'])) {
+        parse_str($url_parts['query'], $params);
+    }
+    
+    function build_url_with_params($base_url, $params, $week_value) {
+        $params['week'] = $week_value;
+        $query = http_build_query($params);
+        $url_parts = parse_url($base_url);
+        $path = isset($url_parts['path']) ? $url_parts['path'] : '';
+        return $path . '?' . $query;
+    }
+    
+    $base_url = isset($url_parts['scheme']) ? $url_parts['scheme'] . '://' : '';
+    $base_url .= isset($url_parts['host']) ? $url_parts['host'] : '';
+    $base_url .= isset($url_parts['path']) ? $url_parts['path'] : '';
+    
+    if (isset($atts['ruum'])) {
+        $url = "https://siseveeb.voco.ee/veebilehe_andmed/tunniplaan?nadal={$week_date}&ruum={$atts['ruum']}";
+    } else {
+        $url = "https://siseveeb.voco.ee/veebilehe_andmed/tunniplaan?nadal={$week_date}&grupp={$atts['grupp']}";
+    }
     
     $response = wp_remote_get($url);
     
@@ -18,7 +47,7 @@ function tunniplaan_shortcode($atts) {
     
     $data = json_decode(wp_remote_retrieve_body($response), true);
     
-    if (!$data || !isset($data['tunnid']) || !isset($data['ajad'])) {
+    if (!$data || !isset($data['tunnid'])) {
         return '<p>Andmed puuduvad või vigased.</p>';
     }
     
@@ -45,8 +74,9 @@ function tunniplaan_shortcode($atts) {
         $date->modify("+{$i} days");
         $week_dates[] = $date->format('Y-m-d');
     }
-    
-    $meal_time = isset($data['ajad']['soomine']) ? $data['ajad']['soomine'] : '12:30-13:00';
+    if (isset($data['ajad'])) {
+        $meal_time = isset($data['ajad']['soomine']) ? $data['ajad']['soomine'] : '12:30-13:00';
+    }
     
     $start_hour = 7;
     $end_hour = 22;
@@ -62,14 +92,22 @@ function tunniplaan_shortcode($atts) {
         }
     }
     
-    // Generate the full hours array
     $full_hours = array();
     for ($h = $start_hour; $h <= $end_hour; $h++) {
         $full_hours[] = sprintf('%02d:00', $h);
     }
     
-    $output = '<div class="voco-tunniplaan">';
-   
+    $output = '<div class="voco-tunniplaan-navigation">';
+    $output .= '<a href="' . build_url_with_params($base_url, $params, $prev_week) . '" class="week-nav prev-week">&larr; Eelmine nädal</a>';
+    $output .= '<a href="' . build_url_with_params($base_url, $params, $current_week) . '" class="week-nav current-week">Käesolev nädal</a>';
+    $output .= '<a href="' . build_url_with_params($base_url, $params, $next_week) . '" class="week-nav next-week">Järgmine nädal &rarr;</a>';
+    $output .= '</div>';
+    
+    $week_start_formatted = date('d.m.Y', strtotime($week_dates[0]));
+    $week_end_formatted = date('d.m.Y', strtotime($week_dates[4]));
+    $output .= '<div class="voco-tunniplaan-current-week">Nädal: ' . $week_start_formatted . ' - ' . $week_end_formatted . '</div>';
+    
+    $output .= '<div class="voco-tunniplaan">';
     
     $output .= '<table>';
     
@@ -104,6 +142,7 @@ function tunniplaan_shortcode($atts) {
     $output .= '</table>';
     $output .= '</div>';
     
+   
     $output .= '<script>
     document.addEventListener("DOMContentLoaded", function() {
         const rows = document.querySelectorAll(".hour-row");
@@ -157,7 +196,7 @@ function tunniplaan_shortcode($atts) {
                     <div class="lesson-teacher truncate" title="${lesson.opetaja}">${lesson.opetaja}</div>
                 `;
                 
-                if (lesson.algus === "11:55") {
+                if (lesson.algus === "11:55" && mealTime) {
                     const lunchDiv = document.createElement("div");
                     lunchDiv.className = "lunch-time";
                     lunchDiv.textContent = "Söömine " + mealTime;
@@ -183,44 +222,101 @@ function tunniplaan_shortcode($atts) {
 
 add_shortcode('tunniplaan', 'tunniplaan_shortcode');
 
-function voco_groups_dropdown_shortcode() {
-    $api_url = 'https://siseveeb.voco.ee/veebilehe_andmed/oppegrupid?seisuga=not_ended';
-    $response = wp_remote_get($api_url);
+function voco_dropdown_shortcode($atts) {
+    $atts = shortcode_atts(
+        array(
+            'show' => 'both', // Options: 'groups', 'rooms', 'both'
+        ),
+        $atts,
+        'voco_select'
+    );
     
-    if (is_wp_error($response)) {
-        return 'Error fetching data from API.';
-    }
+    $output = '';
+    $show_groups = ($atts['show'] === 'groups' || $atts['show'] === 'both');
+    $show_rooms = ($atts['show'] === 'rooms' || $atts['show'] === 'both');
     
-    $body = wp_remote_retrieve_body($response);
-    $data = json_decode($body, true);
+    $current_group_id = isset($_GET['group']) ? sanitize_text_field($_GET['group']) : '';
+    $current_room_id = isset($_GET['room']) ? sanitize_text_field($_GET['room']) : '';
     
-    if (!isset($data['grupid']) || empty($data['grupid'])) {
-        return 'No groups found.';
-    }
-    
-    usort($data['grupid'], function($a, $b) {
-        return strcmp($a['tahis'], $b['tahis']);
-    });
-    
-    $output = '<div class="voco-group-selector">';
-    $output .= '<label for="group-select">Vali tunniplaan:</label>';
-    $output .= '<select id="group-select" class="voco-dropdown" onchange="window.location.href=this.value;">';
-    $output .= '<option value="">-- Vali grupp --</option>';
-    
-    foreach ($data['grupid'] as $group) {
-        $value = esc_url(add_query_arg('group', $group['id'], get_permalink()));
-        $label = esc_html($group['tahis'] . ' ' . $group['oppekava']);
-        $output .= '<option value="' . $value . '">' . $label . '</option>';
-    }
-    
-    $output .= '</select>';
-    $output .= '</div>';
-    
-    $output .= '<style>
+    if ($show_groups) {
+        $api_url = 'https://siseveeb.voco.ee/veebilehe_andmed/oppegrupid?seisuga=not_ended';
+        $response = wp_remote_get($api_url);
         
-    </style>';
+        if (is_wp_error($response)) {
+            $output .= '<p>Error fetching groups data from API.</p>';
+        } else {
+            $body = wp_remote_retrieve_body($response);
+            $data = json_decode($body, true);
+            
+            if (!isset($data['grupid']) || empty($data['grupid'])) {
+                $output .= '<p>No groups found.</p>';
+            } else {
+                usort($data['grupid'], function($a, $b) {
+                    return strcmp($a['tahis'], $b['tahis']);
+                });
+                
+                $output .= '<div class="voco-group-selector">';
+                $output .= '<label for="group-select">Vali tunniplaan:</label>';
+                $output .= '<select id="group-select" class="voco-dropdown" onchange="window.location.href=this.value;">';
+                $output .= '<option value="0">-- Vali grupp --</option>';
+                
+                $current_group_name = '';
+                foreach ($data['grupid'] as $group) {
+                    $value = esc_url(add_query_arg('group', $group['id'], remove_query_arg('room', get_permalink())));
+                    $label = esc_html($group['tahis'] . ' ' . $group['oppekava']);
+                    $selected = ($current_group_id == $group['id']) ? 'selected="selected"' : '';
+                    
+                    if ($selected) {
+                        $current_group_name = $label;
+                    }
+                    
+                    $output .= '<option value="' . $value . '" ' . $selected . '>' . $label . '</option>';
+                }
+                
+                $output .= '</select>';
+                
+               
+                
+                $output .= '</div>';
+            }
+        }
+    }
+    
+    if ($show_rooms) {
+        $rooms_json = file_get_contents(dirname(__FILE__) . '/ruumid.json');
+        $rooms = json_decode($rooms_json, true);
+        
+        if (!$rooms) {
+            $output .= '<p>Error loading rooms data.</p>';
+        } else {
+            asort($rooms);
+            
+            $output .= '<div class="voco-room-selector">';
+            $output .= '<label for="room-select">Vali õpperuum:</label>';
+            $output .= '<select id="room-select" class="voco-dropdown" onchange="window.location.href=this.value;">';
+            $output .= '<option value="0">-- Vali ruum --</option>';
+            
+            $current_room_name = '';
+            foreach ($rooms as $room_id => $room_name) {
+                $value = esc_url(add_query_arg('room', $room_id, remove_query_arg('group', get_permalink())));
+                $label = esc_html($room_name);
+                $selected = ($current_room_id == $room_id) ? 'selected="selected"' : '';
+                
+                if ($selected) {
+                    $current_room_name = $label;
+                }
+                
+                $output .= '<option value="' . $value . '" ' . $selected . '>' . $label . '</option>';
+            }
+            
+            $output .= '</select>';
+            
+           
+            
+            $output .= '</div>';
+        }
+    }
     
     return $output;
 }
-
-add_shortcode('group_select', 'voco_groups_dropdown_shortcode');
+add_shortcode('tunniplaan_select', 'voco_dropdown_shortcode');

@@ -209,3 +209,55 @@
         padding: 2px;
     }
 }
+
+.voco-tunniplaan-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.week-nav {
+    padding: 8px 16px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.week-nav:hover {
+    background-color: #e0e0e0;
+}
+
+.current-week {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.current-week:hover {
+    background-color: #45a049;
+}
+
+.voco-tunniplaan-current-week {
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.voco-group-selector, .voco-room-selector {
+    margin-bottom: 20px;
+}
+.voco-dropdown {
+    padding: 8px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-bottom: 6px;
+}
+.voco-current-selection {
+    font-size: 14px;
+    color: #444;
+    margin-top: 4px;
+}
