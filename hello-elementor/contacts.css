@@ -1,189 +1,217 @@
 /* Base container styles */
 .contact-list-contact-container {
-    border: none !important;
-    box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1);
-    max-width: 380px !important;
-    width: 380px !important;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: row;
-    text-align: center;
-    justify-content: center;
-    padding: 0;
-    min-height: 0 !important;
-    height: 100% !important;
-  }
-  
-  /* List item styles */
+  border: none !important;
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1);
+  max-width: 380px !important;
+  width: 380px !important;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  justify-content: center;
+  padding: 0;
+  min-height: 0 !important;
+  height: 100% !important;
+}
+
+/* List item styles */
+#all-contacts {
+  display: grid;
+  grid-template-columns: repeat(3, 380px);
+  gap: 0;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+#all-contacts li {
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0 !important;
+  height: auto !important;
+  display: flex;
+  width: 380px !important;
+}
+
+#all-contacts li .contact-list-contact-container {
+  border: none !important;
+  box-shadow: none !important;
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+  padding-bottom: 5px !important;
+  flex: 1;
+}
+
+/* Alternating row colors */
+li:nth-child(odd) .contact-list-contact-container {
+  background-color: #F5F7FA;
+}
+li:nth-child(even) .contact-list-contact-container {
+  background-color: #FFFFFF;
+}
+
+/* Main content layout */
+.contact-list-main-left {
+  flex: 1;
+  padding: 8px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 !important;
+  width: 100%;
+}
+
+.contact-list-main-elements {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  gap: 4px;
+  min-height: 0 !important;
+  height: auto !important;
+}
+
+/* Typography styles */
+.contact-list-contact-name {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+  text-transform: none;
+  text-align: center;
+}
+
+.contact-list-job-title {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  text-align: center;
+}
+
+.contact-list-email {
+  text-align: left;
+  margin: 0;
+}
+
+.contact-list-email a {
+  color: #000;
+  text-decoration: none;
+}
+
+/* Field styles */
+.contact-list-address-title,
+.contact-list-custom-field-title {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  margin-right: 8px;
+  text-align: left;
+  display: inline-block;
+}
+
+.contact-list-address-line-1,
+.contact-list-custom-field-value {
+  font-size: 14px;
+  color: #000;
+  margin: 0;
+  text-align: left;
+  display: inline-block;
+}
+
+/* Hide unused elements */
+.contact-list-send-email,
+.contact-list-main-right,
+.contact-list-main-bottom {
+  display: none;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
   #all-contacts {
-    display: grid;
-    grid-template-columns: repeat(3, 380px);
-    gap: 0;
-    justify-content: center;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+    grid-template-columns: 1fr;
+    justify-items: center;
   }
   
   #all-contacts li {
-    margin: 0 !important;
-    padding: 0 !important;
-    min-height: 0 !important;
-    height: auto !important;
-    display: flex;
-    width: 380px !important;
+    width: 100% !important;
+    max-width: 380px !important;
+    margin: 0 auto !important;
   }
   
-  #all-contacts li .contact-list-contact-container {
-    border: none !important;
-    box-shadow: none !important;
-    margin-bottom: 0 !important;
-    padding: 0 !important;
-    padding-bottom: 5px !important;
-    flex: 1;
-  }
-  
-  /* Alternating row colors */
-  li:nth-child(odd) .contact-list-contact-container {
-    background-color: #F5F7FA;
-  }
-  li:nth-child(even) .contact-list-contact-container {
-    background-color: #FFFFFF;
-  }
-  
-  /* Main content layout */
-  .contact-list-main-left {
-    flex: 1;
-    padding: 8px !important;
-    display: flex;
+  .contact-list-contact-container {
     flex-direction: column;
-    align-items: center;
-    margin: 0 !important;
-    width: 100%;
+    width: 100% !important;
   }
-  
-  .contact-list-main-elements {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: left;
-    width: auto;
-    margin: 0;
-    padding: 0;
-    gap: 4px;
-    min-height: 0 !important;
-    height: auto !important;
-  }
-  
-  /* Typography styles */
-  .contact-list-contact-name {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    margin: 0;
-    text-transform: none;
-    text-align: center;
-  }
-  
-  .contact-list-job-title {
-    font-size: 14px;
-    color: #666;
-    margin: 0;
-    text-align: center;
-  }
-  
-  .contact-list-email {
-    text-align: left;
-    margin: 0;
-  }
-  
-  .contact-list-email a {
-    color: #000;
-    text-decoration: none;
-  }
-  
-  /* Field styles */
-  .contact-list-address-title,
-  .contact-list-custom-field-title {
-    font-size: 14px;
-    color: #666;
-    margin: 0;
-    margin-right: 8px;
-    text-align: left;
-    display: inline-block;
-  }
-  
-  .contact-list-address-line-1,
-  .contact-list-custom-field-value {
-    font-size: 14px;
-    color: #000;
-    margin: 0;
-    text-align: left;
-    display: inline-block;
-  }
-  
-  /* Hide unused elements */
-  .contact-list-send-email,
-  .contact-list-main-right,
-  .contact-list-main-bottom {
-    display: none;
-  }
-  
-  /* Responsive styles */
-  @media (max-width: 768px) {
-    #all-contacts {
-      grid-template-columns: 1fr;
-    }
-    
-    .contact-list-contact-container {
-      flex-direction: column;
-    }
-  }
-  
-  /* Card layout styles */
-  .contact-list-3-cards-on-the-same-row #all-contacts li {
-    padding: 0;
-  }
-  
-  .contact-list-3-cards-on-the-same-row #all-contacts li .contact-list-contact-container {
-    border-radius: 0px;
-    padding: 0;
-  }
-  
-  /* Search container */
-  .contact-list-search-contacts {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin: 20px auto;
-    text-align: center;
-  }
-  
-  /* Hide empty elements - updated */
-  div:has(> .contact-list-address-title):not(:has(> .contact-list-address-line-1)) {
-    display: none !important;
-  }
-  
-  /* Field container styles */
-  .contact-list-main-elements div:has(.contact-list-address-title),
-  .contact-list-main-elements div:has(.contact-list-custom-field-title) {
-    margin: 0 !important;
-    padding: 0 !important;
-    display: flex;
-    align-items: center;
-  }
-  
-  /* Remove all bottom margins and use gap */
-  .contact-list-main-elements > * {
-    margin: 0 !important;
-  }
-  
-  /* Ensure consistent container heights */
-  .contact-list-main-elements > div,
-  .contact-list-main-elements > *,
-  .contact-list-main-elements div:has(.contact-list-address-title),
-  .contact-list-main-elements div:has(.contact-list-custom-field-title) {
-    min-height: 0 !important;
-    height: auto !important;
-  }
+}
+
+/* Card layout styles */
+.contact-list-3-cards-on-the-same-row #all-contacts li {
+  padding: 0;
+}
+
+.contact-list-3-cards-on-the-same-row #all-contacts li .contact-list-contact-container {
+  border-radius: 0px;
+  padding: 0;
+}
+
+/* Search container */
+.contact-list-search-contacts {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 20px auto;
+  text-align: center;
+  position: relative;
+}
+
+/* Search input styling */
+.contact-list-search-contacts input[type="text"] {
+  padding: 8px 35px 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 300px;
+  font-size: 14px;
+  background-image: url("../hello-elementor/assets/images/search-outline.svg");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+}
+
+.contact-list-search-contacts input[type="text"]:focus {
+  outline: none;
+  border-color: #666;
+  box-shadow: 0 0 3px rgba(0,0,0,0.1);
+}
+
+/* Hide empty elements - updated */
+div:has(> .contact-list-address-title):not(:has(> .contact-list-address-line-1)) {
+  display: none !important;
+}
+
+/* Field container styles */
+.contact-list-main-elements div:has(.contact-list-address-title),
+.contact-list-main-elements div:has(.contact-list-custom-field-title) {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+}
+
+/* Remove all bottom margins and use gap */
+.contact-list-main-elements > * {
+  margin: 0 !important;
+}
+
+/* Ensure consistent container heights */
+.contact-list-main-elements > div,
+.contact-list-main-elements > *,
+.contact-list-main-elements div:has(.contact-list-address-title),
+.contact-list-main-elements div:has(.contact-list-custom-field-title) {
+  min-height: 0 !important;
+  height: auto !important;
+}
