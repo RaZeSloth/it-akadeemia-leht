@@ -1,0 +1,62 @@
+.voistlused_page {
+    font-family: 'Montserrat';
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.võistlused {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 1214px;
+}
+
+.võistlus {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-left: 3%;
+    margin: 20px 0;
+}
+
+.võistlusedHR {
+    width: 120%;
+    border: solid 1px;
+}
+
+.võistlusLocDat {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: -35px;
+    width: 100%;
+    padding-left: 3%;
+}
+
+.võistlusLocDat h2 {
+    font-size: 12px;
+    font-weight: 400;
+}
+
+@media only screen and (max-width: 480px) {
+    .voistlused_page {
+        width: 100%;
+    }
+    .võistlused {
+        width: 100%;
+    }
+
+    .võistlus {
+        width: 100%;
+    }
+
+    .võistlusLocDat {
+        width: 100%;
+    }
+    .võistlusedHR {
+        width: 100%;
+    }
+}

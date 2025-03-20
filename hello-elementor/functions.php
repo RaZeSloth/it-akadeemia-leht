@@ -8,6 +8,7 @@
 use Elementor\WPNotificationsPackage\V110\Notifications as ThemeNotifications;
 
 include 'tunniplaan.php';
+include 'võistlused.php';
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -140,6 +141,12 @@ if ( ! function_exists( 'hello_elementor_scripts_styles' ) ) {
 			wp_enqueue_style(
 				'tunniplaan-css',
 				get_template_directory_uri() . '/tunniplaan.css',
+				[],
+				time()
+			);
+			wp_enqueue_style(
+				'võistlused-css',
+				get_template_directory_uri() . '/võistlused.css',
 				[],
 				time()
 			);	
